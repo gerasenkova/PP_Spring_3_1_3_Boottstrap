@@ -22,6 +22,11 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
+
+
+    @Column
+    private int age;
+
     @Column(unique = true)
     private String username;
 
@@ -50,7 +55,13 @@ public class User implements UserDetails {
         this.email = email;
         this.roles = roles;
     }
+    public int getAge() {
+        return age;
+    }
 
+    public void setAge(int age) {
+        this.age = age;
+    }
     public String getName() {
         return name;
     }
