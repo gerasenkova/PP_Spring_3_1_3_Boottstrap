@@ -36,18 +36,14 @@ public class AdminController {
     }
 
     @PostMapping()
-    public String createUser(@ModelAttribute("newUser") User user, HttpServletRequest request) {
-        Set <Role> roles=new HashSet<>();
-        String[] userRoles=request.getParameterValues("role1");
-        for(String roleId : userRoles){
-            if(Long.parseLong(roleId)==2L){
-                roles.add(roleService.getRoleById(2L));
-            }
-            if(Long.parseLong(roleId)==1L){
-                roles.add(roleService.getRoleById(1L));
-            }
+    public String createUser(@ModelAttribute("newUser") User user,
+                             @RequestParam(value = "nameRoles") String[] roles) {
+        Set <Role> roles1=new HashSet<>();
+        for(String role:roles){
+            roles1.add(roleService.getRoleByName(role));
+
         }
-        user.setRoles(roles);
+        user.setRoles(roles1);
         userService.saveUser(user);
         return "redirect:/admin";
     }
@@ -69,18 +65,12 @@ public class AdminController {
 
     @PostMapping("/{id}")
     public String update(@ModelAttribute("user") User user,
-                         @PathVariable("id") Long id, HttpServletRequest request) {
-        Set <Role> roles=new HashSet<>();
-        String[] userRoles=request.getParameterValues("role1");
-        for(String roleId : userRoles){
-            if(Long.parseLong(roleId)==2L){
-                roles.add(roleService.getRoleById(2L));
-            }
-            if(Long.parseLong(roleId)==1L){
-                roles.add(roleService.getRoleById(1L));
-            }
+                         @RequestParam(value = "nameRoles") String[] roles) {
+        Set <Role> roles1=new HashSet<>();
+        for(String role:roles){
+            roles1.add(roleService.getRoleByName(role));
         }
-        user.setRoles(roles);
+        user.setRoles(roles1);
         userService.updateUser(user);
         return "redirect:/admin";
     }

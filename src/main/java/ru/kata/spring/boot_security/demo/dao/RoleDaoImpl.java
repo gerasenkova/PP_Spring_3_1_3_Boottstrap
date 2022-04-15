@@ -22,9 +22,9 @@ public class RoleDaoImpl implements RoleDao {
     }
 
         @Override
-    public Role getRoleById(Long id) {
+    public Role getRoleByName(String name) {
         return entityManager.createQuery(
-                "SELECT r from Role r where r.id=:id", Role.class
-        ).setParameter("id", id).getSingleResult();
+                "SELECT r from Role r where r.name=:name", Role.class
+        ).setParameter("name", name).getSingleResult();
     }
 }
