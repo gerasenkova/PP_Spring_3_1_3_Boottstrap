@@ -59,8 +59,6 @@
 
 
         <!--        вкладка таблица-->
-
-
         <div class="tab-content" id="nav-tabContent">
             <div id="nav-home" class="tab-pane fade show active" role="tabpanel" aria-labelledby="nav-home-tab">
                 <p><strong>All users</strong></p>
@@ -164,10 +162,10 @@
 </div>
 
 <!--Модальное окно для редактирования пользователя-->
-<div class="modal fade" th:each="editUser : ${users}" th:id="${'edit' + editUser.getId()}">
+<div class="modal fade" th:each="user : ${users}" th:id="${'edit' + user.getId()}">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form th:method="POST" th:action="@{/admin/{id}(id=${editUser.getId()})}">
+            <form th:method="POST" th:action="@{/admin/}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalEdit">Edit user</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -178,59 +176,59 @@
                     <form role="form" class="form-horizontal">
                         <div class="form-group">
                             <label>ID
-                                <input type="text" class="form-control" th:value="${editUser.id}" readonly="readonly">
+                                <input type="text" class="form-control" th:value="${user.id}" readonly="readonly">
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Name
-                                <input type="text" class="form-control" th:value="${editUser.name}"
+                                <input type="text" class="form-control" th:value="${user.name}"
                                        name="name">
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Last name
-                                <input type="text" class="form-control" th:value="${editUser.lastName}" name="lastName">
+                                <input type="text" class="form-control" th:value="${user.lastName}" name="lastName">
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Age
-                                <input type="text" class="form-control" th:value="${editUser.age}" name="age">
+                                <input type="text" class="form-control" th:value="${user.age}" name="age">
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Email
-                                <input type="text" class="form-control" th:value="${editUser.email}" name="email">
+                                <input type="text" class="form-control" th:value="${user.email}" name="email">
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Password
-                                <input type="password" class="form-control" th:value="${editUser.password}"
+                                <input type="password" class="form-control" th:value="${user.password}"
                                        name="password">
                             </label>
                         </div>
                         <div class="d-flex flex-row bd-highlight">
                             <div class="form-group">
-                                <label>Role:
-                                    <select id="editRole" class="custom-select bd-primary"
-                                            size="2" name="editRoles" multiple="multiple">
-                                        <option th:each="role : ${roles}"
-                                                th:value="${role.name}"
-                                                th:text="${#strings.replace(role.name, 'ROLE_', '')}"
-                                                th:selected="${role.name} == USER">
-                                        </option>
-                                    </select>
-                                </label>
+                                <label >Role</label>
+                                <select multiple size="2" name="nameRoles" class="form-control">
+                                    <option th:each="role:${roles}"
+                                            th:value="${role.name}"
+                                            th:text="${role.getName()}"></option>
+                                </select>
+
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-info">Edit</button>
+
                         </div>
                     </form>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-info">Edit</button>
+                </div>
             </form>
         </div>
+        </form>
     </div>
+</div>
 </div>
 
 <!--Модальное окно для удаления пользователя-->
@@ -297,8 +295,8 @@
                 </form>
             </div>
         </div>
-        </div>
     </div>
+</div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
