@@ -12,8 +12,7 @@
     <title>Spring Security Example</title>
 </head>
 <body>
-
-<!--верхняя часть с логином и паролем юзера-->
+<!--верхний бар с логином и паролем юзера-->
 <nav class="navbar navbar-dark bg-dark">
     <span class="navbar-brand mb-0 h1">
     <strong><a th:text="${user.getEmail()}"></a></strong>
@@ -28,36 +27,27 @@
     </ul>
 </nav>
 
+<div class="row mt-3">
 
-<div class="container">
-    <div class="row">
+    <!--        левый бар с кнопкой юзер-->
+    <div class="col-2">
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" th:href="@{/user}">User</a>
+            </li>
+        </ul>
+    </div>
 
-        <!--        левая часть-->
-        <div class="col col-lg-2">
 
-        </div>
-
-        <!--        правая часть-->
-        <!-- Переключалка над таблицей между User table и New user -->
-        <div class="col col-lg-10">
-            <h1>Admin panel</h1>
-            <div class="card text-center">
-                <div class="card-header">
-                    <ul class="nav nav-tabs card-header-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link active" th:href="@{/admin/}">Users table</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/admin/}">New User</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!--Таблица юзеров с кнопками delete, edit-->
+    <!--        //правый бар с таблицей-->
+    <div class="col-10 bg-light">
+        <h1>User information-page</h1>
+        <div class="card">
+            <h3 class="card-header">About user</h3>
+            <div class="card-body">
                 <div id="nav-home" class="tab-pane fade show active" role="tabpanel" aria-labelledby="nav-home-tab">
-                    <p><strong>All users</strong></p>
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped table-hover">
                             <thead>
                             <tr>
                                 <th scope="col">ID</th>
@@ -66,47 +56,42 @@
                                 <th scope="col">Age</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Role</th>
-                                <th scope="col">Edit</th>
-                                <th scope="col">Delete</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="user : ${users}">
+                            <tr>
+                            <tr th:object="${user}">
                                 <td th:text="${user.getId()}"></td>
                                 <td th:text="${user.getName()}"></td>
                                 <td th:text="${user.getLastName()}"></td>
                                 <td th:text="${user.getAge()}"></td>
                                 <td th:text="${user.getEmail()}"></td>
                                 <td><span th:each="roles : ${user.getRoles()}" th:text="${roles} + ' '"></span></td>
-                                <!--Кнопки delete edit в разных цветах со ссылками-->
-                                <td>
-                                    <a class="btn btn-primary" th:href="@{/admin/{id}/edit(id=${user.getId()})}"
-                                       role="button">Edit</a>
-                                </td>
-                                <td>
-                                    <a class="btn btn-danger" th:href="@{/admin/{id}/delete(id=${user.getId()})}"
-                                       role="button">Delete</a>
-                                </td>
-
+                            </tr>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
 
 
 
-<!--<div th:insert="~{exit :: exit_button}"></div>-->
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+    </div>
+</div>
+
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
 </body>
 </html>
