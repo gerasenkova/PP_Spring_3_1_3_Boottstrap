@@ -18,7 +18,7 @@
     <span class="navbar-brand mb-0 h1">
     <strong><a th:text="${user.getEmail()}"></a></strong>
     <span class="text-start">with roles:
-            <a th:each="role : ${user.getRoles()}" th:text="${role} + ' '"></a>
+            <a th:each="role : ${user.getRoles()}" th:text="${role}"></a>
         </span>
         </span>
     <ul class="nav justify-content-end">
@@ -84,7 +84,7 @@
                             <td th:text="${user.getLastName()}"></td>
                             <td th:text="${user.getAge()}"></td>
                             <td th:text="${user.getEmail()}"></td>
-                            <td><span th:each="roles : ${user.getRoles()}" th:text="${roles} + ' '"></span></td>
+                            <td><span th:each="roles : ${user.getRoles()}" th:text="${roles}"></span></td>
 
                             <!--Кнопки delete edit(вызов модального окна) в разных цветах со ссылками-->
                             <td>
@@ -143,7 +143,7 @@
 
                         <div class="form-group mb-3">
                             <label for="newRole">Role</label>
-                            <select multiple size="2" name="nameRoles" class="form-control"
+                            <select multiple size="2" name="nameRoles"
                                     id="newRole">
                                 <option th:each="role:${roles}"
                                         th:value="${role.name}"
@@ -162,21 +162,23 @@
 </div>
 
 <!--Модальное окно для редактирования пользователя-->
-<div class="modal fade" th:each="user : ${users}" th:id="${'edit' + user.getId()}">
+
+<div class="modal fade" th:each="editUser : ${users}" th:id="${'edit' + user.getId()}">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form th:method="POST" th:action="@{/admin/}">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalEdit">Edit user</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body container-fluid text-center col-6">
-                    <form role="form" class="form-horizontal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form th:method="PATCH" th:action="@{/admin/{id}(id=${user.getId()})}" th:object="${user}">-
+                <div class="modal-body">
+                    <div class="modal-body container-fluid text-center col-6">
                         <div class="form-group">
                             <label>ID
-                                <input type="text" class="form-control" th:value="${user.id}" readonly="readonly">
+                                <input type="text" class="form-control" th:value="${user.id}"
+                                       readonly="readonly">
                             </label>
                         </div>
                         <div class="form-group">
@@ -187,7 +189,8 @@
                         </div>
                         <div class="form-group">
                             <label>Last name
-                                <input type="text" class="form-control" th:value="${user.lastName}" name="lastName">
+                                <input type="text" class="form-control" th:value="${user.lastName}"
+                                       name="lastName">
                             </label>
                         </div>
                         <div class="form-group">
@@ -206,29 +209,30 @@
                                        name="password">
                             </label>
                         </div>
-                        <div class="d-flex flex-row bd-highlight">
-                            <div class="form-group">
-                                <label >Role</label>
-                                <select multiple size="2" name="nameRoles" class="form-control">
-                                    <option th:each="role:${roles}"
-                                            th:value="${role.name}"
-                                            th:text="${role.getName()}"></option>
-                                </select>
+                        <!--                        <div class="d-flex flex-row bd-highlight">-->
+                        <!--                            <div class="form-group">-->
+                        <!--                                    <label>Role:-->
+                        <!--                                        <select id="editRole" class="custom-select bd-primary"-->
+                        <!--                                                size="2" name="editRoles" multiple="multiple">-->
+                        <!--                                            <option th:each="role : ${roles}"-->
+                        <!--                                                    th:value="${role.name}"-->
+                        <!--                                                    th:text="${#strings.replace(role.name, 'ROLE_', '')}"-->
+                        <!--                                                    th:selected="${role.name} == USER">-->
+                        <!--                                            </option>-->
+                        <!--                                        </select>-->
+                        <!--                                    </label>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Edit</button>
 
-                            </div>
-
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-info">Edit</button>
+                    </div>
                 </div>
             </form>
         </div>
-        </form>
     </div>
-</div>
 </div>
 
 <!--Модальное окно для удаления пользователя-->
@@ -310,4 +314,3 @@
         crossorigin="anonymous"></script>
 </body>
 </html>
-
