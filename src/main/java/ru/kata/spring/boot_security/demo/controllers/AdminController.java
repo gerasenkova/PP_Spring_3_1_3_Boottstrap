@@ -60,13 +60,7 @@ public class AdminController {
     @GetMapping("/{id}/edit")
     public String edit(@ModelAttribute("user") User user,
                        ModelMap model,
-                       @PathVariable("id") int id,
-                       @RequestParam(value = "editRoles") String[] roles) {
-       Set<Role> roles1=new HashSet<>();
-       for(String role:roles){
-           roles1.add(roleService.getRoleByName(role));
-       }
-       user.setRoles(roles1);
+                       @PathVariable("id") int id) {
         model.addAttribute("roles", roleService.getAllRoles());
         model.addAttribute("user", userService.getById(id));
         return "admin";
@@ -75,12 +69,12 @@ public class AdminController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user,
                          @PathVariable("id") int id,
-                         @RequestParam(value = "editRoles") String[] roles) {
-        Set<Role> roles1=new HashSet<>();
-        for(String role:roles){
-            roles1.add(roleService.getRoleByName(role));
+                         @RequestParam (value = "editRoles") String [] roles1){
+        Set<Role> roles=new HashSet<>();
+        for(String role:roles1){
+            roles.add(roleService.getRoleByName(role));
         }
-        user.setRoles(roles1);
+        user.setRoles(roles);
         userService.updateUser(user);
         return "redirect:/admin/";
     }
