@@ -58,23 +58,31 @@ public class AdminController {
 
 
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("users", userService.userList());
-        model.addAttribute("user", userService.getById(id));
+    public String edit(@ModelAttribute("user") User user,
+                       ModelMap model,
+                       @PathVariable("id") int id,
+                       @RequestParam(value = "editRoles") String[] roles) {
+       Set<Role> roles1=new HashSet<>();
+       for(String role:roles){
+           roles1.add(roleService.getRoleByName(role));
+       }
+       user.setRoles(roles1);
         model.addAttribute("roles", roleService.getAllRoles());
+        model.addAttribute("user", userService.getById(id));
         return "admin";
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user,@PathVariable Long id,
-                         @RequestParam (value = "editRole") String[]roles1) {
-//        Set<Role> roles=new HashSet<>();
-//        for(String role:roles1){
-//            roles.add(roleService.getRoleByName(role));
-//        }
-//        user.setRoles(roles);
+    public String update(@ModelAttribute("user") User user,
+                         @PathVariable("id") int id,
+                         @RequestParam(value = "editRoles") String[] roles) {
+        Set<Role> roles1=new HashSet<>();
+        for(String role:roles){
+            roles1.add(roleService.getRoleByName(role));
+        }
+        user.setRoles(roles1);
         userService.updateUser(user);
-        return "redirect:/admin";
+        return "redirect:/admin/";
     }
 }
 

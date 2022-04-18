@@ -163,72 +163,69 @@
 
 <!--Модальное окно для редактирования пользователя-->
 
-<div class="modal fade" th:each="editUser : ${users}" th:id="${'edit' + user.getId()}">
+<div class="modal fade" th:each="editUser : ${users}" th:id="${'edit' + editUser.getId()}">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form th:method="PATCH" th:action="@{/admin/{id}(id=${user.getId()})}" th:object="${user}">-
-                <div class="modal-body">
-                    <div class="modal-body container-fluid text-center col-6">
+            <form th:method="PATCH" th:action="@{/admin/{id}(id=${editUser.getId()})}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEdit">Edit user</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body container-fluid text-center col-6">
+                    <form role="form" class="form-horizontal">
                         <div class="form-group">
                             <label>ID
-                                <input type="text" class="form-control" th:value="${user.id}"
-                                       readonly="readonly">
+                                <input type="text" class="form-control" th:value="${editUser.id}" readonly="readonly">
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Name
-                                <input type="text" class="form-control" th:value="${user.name}"
+                                <input type="text" class="form-control" th:value="${editUser.name}"
                                        name="name">
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Last name
-                                <input type="text" class="form-control" th:value="${user.lastName}"
-                                       name="lastName">
+                                <input type="text" class="form-control" th:value="${editUser.lastName}" name="lastName">
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Age
-                                <input type="text" class="form-control" th:value="${user.age}" name="age">
+                                <input type="text" class="form-control" th:value="${editUser.age}" name="age">
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Email
-                                <input type="text" class="form-control" th:value="${user.email}" name="email">
+                                <input type="text" class="form-control" th:value="${editUser.email}" name="email">
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Password
-                                <input type="password" class="form-control" th:value="${user.password}"
+                                <input type="password" class="form-control" th:value="${editUser.password}"
                                        name="password">
                             </label>
                         </div>
-                        <!--                        <div class="d-flex flex-row bd-highlight">-->
-                        <!--                            <div class="form-group">-->
-                        <!--                                    <label>Role:-->
-                        <!--                                        <select id="editRole" class="custom-select bd-primary"-->
-                        <!--                                                size="2" name="editRoles" multiple="multiple">-->
-                        <!--                                            <option th:each="role : ${roles}"-->
-                        <!--                                                    th:value="${role.name}"-->
-                        <!--                                                    th:text="${#strings.replace(role.name, 'ROLE_', '')}"-->
-                        <!--                                                    th:selected="${role.name} == USER">-->
-                        <!--                                            </option>-->
-                        <!--                                        </select>-->
-                        <!--                                    </label>-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Edit</button>
-
-                    </div>
+                        <div class="d-flex flex-row bd-highlight">
+                            <div class="form-group">
+                                <label>Role:
+                                    <select id="editRole" class="custom-select bd-primary"
+                                            size="2" name="editRoles" multiple="multiple">
+                                        <option th:each="role : ${roles}"
+                                                th:value="${role.name}"
+                                                th:text="${#strings.replace(role.name, 'ROLE_', '')}"
+                                                th:selected="${role.name} == USER">
+                                        </option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-info">Edit</button>
+                        </div>
+                    </form>
                 </div>
             </form>
         </div>

@@ -41,11 +41,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and() //доступ имеют пользователи с ролью админ
-                .formLogin()
+                .formLogin().loginPage("/login").permitAll()
                 .successHandler(successUserHandler)
                 .and()
                 .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
                 .logoutSuccessUrl("/");
     }
 
