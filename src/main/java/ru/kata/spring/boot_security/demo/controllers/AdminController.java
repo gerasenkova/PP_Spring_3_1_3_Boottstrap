@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -21,11 +22,13 @@ public class AdminController {
 
     private UserService userService;
     private RoleService roleService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminController(UserService userService, RoleService roleService) {
+    public AdminController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.roleService = roleService;
+        this.passwordEncoder=passwordEncoder;
     }
 
     @GetMapping
@@ -45,36 +48,43 @@ public class AdminController {
             roles1.add(roleService.getRoleByName(role));
         }
         user.setRoles(roles1);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
         return "redirect:/admin/";
     }
 
 
     @GetMapping("/{id}/delete")
-    public String delete(@PathVariable("id") Long id) {
+    public String delete(@PathVariable("id") long id) {
         userService.delete(id);
         return "redirect:/admin";
     }
 
 
     @GetMapping("/{id}/edit")
-    public String edit(@ModelAttribute("user") User user,
-                       ModelMap model,
-                       @PathVariable("id") int id) {
+    public String edit(@ModelAttribute("user") User user,Model model,
+                       @PathVariable("id") long id
+                     ) {
+//        Set<Role> roles=new HashSet<>();
+//        for(String role:roles1){
+//            roles.add(roleService.getRoleByName(role));
+//        }
+//        user.setRoles(roles);
         model.addAttribute("roles", roleService.getAllRoles());
         model.addAttribute("user", userService.getById(id));
         return "admin";
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}")
     public String update(@ModelAttribute("user") User user,
-                         @PathVariable("id") int id,
-                         @RequestParam (value = "editRoles") String [] roles1){
+                         @PathVariable("id") long id,
+                         @RequestParam (value = "editRoles")String [] roles1){
         Set<Role> roles=new HashSet<>();
         for(String role:roles1){
             roles.add(roleService.getRoleByName(role));
         }
         user.setRoles(roles);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.updateUser(user);
         return "redirect:/admin/";
     }

@@ -18,7 +18,7 @@
     <span class="navbar-brand mb-0 h1">
     <strong><a th:text="${user.getEmail()}"></a></strong>
     <span class="text-start">with roles:
-            <a th:each="role : ${user.getRoles()}" th:text="${role}"></a>
+            <a th:each="role : ${user.getRoles()}" th:text="${#strings.replace(role.name, 'ROLE_', '')}"></a>
         </span>
         </span>
     <ul class="nav justify-content-end">
@@ -84,7 +84,7 @@
                             <td th:text="${user.getLastName()}"></td>
                             <td th:text="${user.getAge()}"></td>
                             <td th:text="${user.getEmail()}"></td>
-                            <td><span th:each="roles : ${user.getRoles()}" th:text="${roles}"></span></td>
+                            <td><span th:each="roles : ${user.getRoles()}"  th:text="${roles} + ' '"></span></td>
 
                             <!--Кнопки delete edit(вызов модального окна) в разных цветах со ссылками-->
                             <td>
@@ -147,7 +147,7 @@
                                     id="newRole">
                                 <option th:each="role:${roles}"
                                         th:value="${role.name}"
-                                        th:text="${role.getName()}"></option>
+                                        th:text="${#strings.replace(role.name, 'ROLE_', '')}"></option>
                             </select>
                         </div>
 
@@ -166,7 +166,7 @@
 <div class="modal fade" th:each="editUser : ${users}" th:id="${'edit' + editUser.getId()}">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form th:method="PATCH" th:action="@{/admin/{id}(id=${editUser.getId()})}">
+            <form th:method="post" th:action="@{/admin/{id}(id=${editUser.getId()})}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalEdit">Edit user</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -214,8 +214,7 @@
                                             size="2" name="editRoles" multiple="multiple">
                                         <option th:each="role : ${roles}"
                                                 th:value="${role.name}"
-                                                th:text="${#strings.replace(role.name, 'ROLE_', '')}"
-                                                th:selected="${role.name} == USER">
+                                                th:text="${#strings.replace(role.name, 'ROLE_', '')}">
                                         </option>
                                     </select>
                                 </label>
