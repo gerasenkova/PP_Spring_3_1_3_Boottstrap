@@ -209,15 +209,13 @@
                         </div>
                         <div class="d-flex flex-row bd-highlight">
                             <div class="form-group">
-                                <label>Role:
-                                    <select id="editRole" class="custom-select bd-primary"
-                                            size="2" name="editRoles" multiple="multiple">
-                                        <option th:each="role : ${roles}"
-                                                th:value="${role.name}"
-                                                th:text="${#strings.replace(role.name, 'ROLE_', '')}">
-                                        </option>
-                                    </select>
-                                </label>
+                                <label>Role</label>
+                                <select size="2" name="editRole" multiple>
+                                    <option th:each="role : ${roles}"
+                                            th:value="${role.name}"
+                                            th:text="${role.getName()}">
+                                    </option>
+                                </select>
                             </div>
                         </div>
                         <div class="modal-footer">
