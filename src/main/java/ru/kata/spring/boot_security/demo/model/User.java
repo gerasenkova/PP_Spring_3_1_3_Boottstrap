@@ -27,9 +27,6 @@ public class User implements UserDetails {
     @Column
     private int age;
 
-    @Column(unique = true)
-    private String username;
-
     @Column
     private String password;
 
@@ -46,11 +43,10 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String name, String lastName, String username, String password, String email, Set<Role> roles) {
+    public User(Long id, String name, String lastName, String password, String email, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
-        this.username = username;
         this.password = password;
         this.email = email;
         this.roles = roles;
@@ -97,12 +93,9 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     @Override
     public String getPassword() {
@@ -151,12 +144,12 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(roles, user.roles);
+        return Objects.equals(id, user.id)  && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, email, roles);
+        return Objects.hash(id, password, email, roles);
     }
 
     @Override
@@ -164,7 +157,6 @@ public class User implements UserDetails {
         return "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
                 '}';

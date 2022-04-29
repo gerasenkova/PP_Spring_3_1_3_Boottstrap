@@ -212,7 +212,7 @@
                                 <select size="2" name="editRole" multiple>
                                     <option th:each="role : ${roles}"
                                             th:value="${role.name}"
-                                            th:text="${role.getName()}">
+                                            th:text="${#strings.replace(role.name, 'ROLE_', '')}">
                                     </option>
                                 </select>
                             </div>
